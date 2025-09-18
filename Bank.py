@@ -1,7 +1,11 @@
+import pickle
+import os
+
 class BankAccount:
-    def __init__(self, account_number, holder_name, balance=0):
+    def __init__(self, account_number, holder_name, password, balance=0):
         self.account_number = account_number
         self.holder_name = holder_name
+        self.password = password
         self.balance = balance
 
     def deposit(self, amount):
@@ -19,17 +23,22 @@ class BankAccount:
     def display_info(self):
         return f"{self.account_number} - {self.holder_name}: ₹{self.balance}"
 
+    def verify_password(self, entered_password):
+        return self.password == entered_password
+
+
 class SavingsAccount(BankAccount):
-    def __init__(self, account_number, holder_name, balance=0, interest_rate=0.03):
-        super().__init__(account_number, holder_name, balance)
+    def __init__(self, account_number, holder_name, password, balance=0, interest_rate=0.03):
+        super().__init__(account_number, holder_name, password, balance)
         self.interest_rate = interest_rate
 
     def apply_interest(self):
         self.balance += self.balance * self.interest_rate
 
+
 class CurrentAccount(BankAccount):
-    def __init__(self, account_number, holder_name, balance=0, overdraft_limit=5000):
-        super().__init__(account_number, holder_name, balance)
+    def __init__(self, account_number, holder_name, password, balance=0, overdraft_limit=5000):
+        super().__init__(account_number, holder_name, password, balance)
         self.overdraft_limit = overdraft_limit
 
     def withdraw(self, amount):
@@ -38,8 +47,6 @@ class CurrentAccount(BankAccount):
             return True
         return False
 
-import pickle
-import os
 
 class Bank:
     def __init__(self, name):
