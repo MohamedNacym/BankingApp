@@ -12,7 +12,7 @@ if 'current_bank' not in st.session_state:
 if 'logged_in_account' not in st.session_state:
     st.session_state.logged_in_account = None
 
-st.title("🏦 ATM Machine Simulator (OOP in Python)")
+st.title("🏦 ATM Machine")
 
 bank_choice = st.selectbox("Select a Bank", list(banks.keys()))
 st.session_state.current_bank = banks[bank_choice]
