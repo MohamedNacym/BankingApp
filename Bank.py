@@ -38,19 +38,34 @@ class CurrentAccount(BankAccount):
             return True
         return False
 
+import pickle
+import os
+
 class Bank:
     def __init__(self, name):
         self.name = name
         self.accounts = {}
+        self.data_file = f"{self.name.replace(' ', '_')}_data.pkl"
+        self.load_accounts()
 
-    def create_account(self, acc_type, acc_no, holder_name):
+    def create_account(self, acc_type, acc_no, holder_name, password):
         if acc_no in self.accounts:
             return False
         if acc_type == "Savings":
-            self.accounts[acc_no] = SavingsAccount(acc_no, holder_name)
+            self.accounts[acc_no] = SavingsAccount(acc_no, holder_name, password)
         elif acc_type == "Current":
-            self.accounts[acc_no] = CurrentAccount(acc_no, holder_name)
+            self.accounts[acc_no] = CurrentAccount(acc_no, holder_name, password)
+        self.save_accounts()
         return True
 
     def get_account(self, acc_no):
         return self.accounts.get(acc_no)
+
+    def save_accounts(self):
+        with open(self.data_file, 'wb') as f:
+            pickle.dump(self.accounts, f)
+
+    def load_accounts(self):
+        if os.path.exists(self.data_file):
+            with open(self.data_file, 'rb') as f:
+                self.accounts = pickle.load(f)
