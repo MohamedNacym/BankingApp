@@ -1,5 +1,5 @@
 import streamlit as st
-from bank import Bank, SavingsAccount, CurrentAccount
+from Bank import Bank, SavingsAccount, CurrentAccount
 
 banks = {
     "Bank of Python": Bank("Bank of Python"),
